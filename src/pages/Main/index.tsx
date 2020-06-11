@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import Day from '../Day'
 
-import Link from 'react-router-dom';
-
-import async from 'axios';
 import api from '../../services/api';
 
 type DailyData = {
-    daily: Array<Object>;
+    daily: Array<any>;
+}
+
+function listItems (dailyData: Array<any>){
+    return dailyData.map((dailyInfo:any) =>
+        <Day key = {dailyInfo.dt} dayInfo = {dailyInfo}/>
+    );
 }
 
 export default class Main extends Component<{}, DailyData> {
+
+    constructor(props: any){
+        super(props);
+
+        this.state = {daily: []};
+
+    }
 
     async getWeatherInfo(){
         const response = await api.get(`onecall?lat=-29.1602432&lon=-51.2065536&exclude=&appid=2c2969f366182280dea46210a412e3db`);
@@ -23,8 +33,7 @@ export default class Main extends Component<{}, DailyData> {
             daily: data.daily
         });
 
-
-        console.log(this.state.daily[0]);
+        console.log(this.state.daily);
 
     }
 
@@ -32,17 +41,11 @@ export default class Main extends Component<{}, DailyData> {
         this.getWeatherInfo();
     }
 
-
-
     render() {
         return(
-             <>
-                <Day dayInfo = {this.state.daily[0]} />
-                <Day dayInfo = {this.state.daily[1]} />
-                <Day dayInfo = {this.state.daily[2]} />
-                <Day dayInfo = {this.state.daily[3]} />
-                <Day dayInfo = {this.state.daily[4]} />
-             </>
+            <div>
+                {listItems(this.state.daily)}
+            </div>
         );
     }
 }

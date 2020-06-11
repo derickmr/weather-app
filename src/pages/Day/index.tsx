@@ -14,7 +14,7 @@ export default class Day extends Component<DayInfo, DayState> {
 
 constructor(props: DayInfo){
     super(props);
-    console.log(props.dayInfo)
+    console.log("teste" + props.dayInfo)
 }
 
     tick() {
