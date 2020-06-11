@@ -2,23 +2,24 @@ import React, { Component } from 'react';
 import Day from '../Day'
 
 import api from '../../services/api';
+import { DayInfo } from '../../models/DayInfo';
 
-type DailyData = {
-    daily: Array<any>;
+type Week = {
+    days: Array<DayInfo>;
 }
 
-function listItems (dailyData: Array<any>){
-    return dailyData.map((dailyInfo:any) =>
-        <Day key = {dailyInfo.dt} dayInfo = {dailyInfo}/>
+function listItems (dailyData: Array<DayInfo>){
+    return dailyData.map((dayInfo:DayInfo) =>
+        <Day key = {dayInfo.id} dayInfo = {dayInfo}/>
     );
 }
 
-export default class Main extends Component<{}, DailyData> {
+export default class Main extends Component<{}, Week> {
 
     constructor(props: any){
         super(props);
 
-        this.state = {daily: []};
+        this.state = {days: []};
 
     }
 
@@ -29,12 +30,46 @@ export default class Main extends Component<{}, DailyData> {
             daily: response.data.daily
         };
 
+        console.log("test");
+        console.log(data.daily);
+
         this.setState({
-            daily: data.daily
-        });
+            days: this.getDaysInfo(data.daily)
+        })
 
-        console.log(this.state.daily);
+    }
 
+    getDaysInfo(data: any): Array<DayInfo>{
+
+        return (data.map(function (element: any){
+            const info = new DayInfo();
+
+            info.id = element.weather[0].id;
+
+            info.feelsLike = {
+                day: element.feels_like.day,
+                evening: element.feels_like.eve,
+                morning: element.feels_like.morn,
+                night: element.feels_like.night
+            }
+
+            info.weather = {
+                icon: element.weather.icon,
+                main: element.weather.main
+            }
+
+            info.temperature = {
+                day: element.temp.day,
+                evening: element.temp.eve,
+                night: element.temp.night,
+                morning: element.temp.morn,
+                min: element.temp.min,
+                max: element.temp.max
+            }
+
+            return info;
+
+        }));
     }
 
     componentWillMount() {
@@ -44,7 +79,7 @@ export default class Main extends Component<{}, DailyData> {
     render() {
         return(
             <div>
-                {listItems(this.state.daily)}
+                {listItems(this.state.days)}
             </div>
         );
     }
