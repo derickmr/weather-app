@@ -7,14 +7,14 @@ type DayState = {
 }
 
 type DayInfo = {
-    dayInfo: Object;
+    dayInfo: any;
 }
 
 export default class Day extends Component<DayInfo, DayState> {
 
 constructor(props: DayInfo){
     super(props);
-    console.log("teste" + props.dayInfo)
+    console.log("teste" + props.dayInfo.dt)
 }
 
     tick() {
