@@ -4,6 +4,8 @@ import Day from '../Day'
 import api from '../../services/api';
 import { DayInfo } from '../../models/DayInfo';
 
+import geolocation from '@react-native-community/geolocation';
+
 type Week = {
     days: Array<DayInfo>;
 }
@@ -14,6 +16,9 @@ function listItems (dailyData: Array<DayInfo>){
     );
 }
 
+var latitude: string;
+var longitude: string;
+
 export default class Main extends Component<{}, Week> {
 
     constructor(props: any){
@@ -21,17 +26,27 @@ export default class Main extends Component<{}, Week> {
 
         this.state = {days: []};
 
+        this.getWeatherInfo = this.getWeatherInfo.bind(this);
+
+    }
+
+    getGeoLocation(callBack: Function){
+        geolocation.getCurrentPosition(function(position: any){
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            callBack();
+        });
     }
 
     async getWeatherInfo(){
-        const response = await api.get(`onecall?lat=-29.1602432&lon=-51.2065536&exclude=&appid=2c2969f366182280dea46210a412e3db`);
+
+        const response = await api.get(`onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=&appid=2c2969f366182280dea46210a412e3db`);
 
         const data = {
             daily: response.data.daily
         };
 
-        console.log("test");
-        console.log(data.daily);
+        console.log(data);
 
         this.setState({
             days: this.getDaysInfo(data.daily)
@@ -54,8 +69,8 @@ export default class Main extends Component<{}, Week> {
             }
 
             info.weather = {
-                icon: element.weather.icon,
-                main: element.weather.main
+                icon: element.weather[0].icon,
+                main: element.weather[0].main
             }
 
             info.temperature = {
@@ -72,15 +87,15 @@ export default class Main extends Component<{}, Week> {
         }));
     }
 
-    componentWillMount() {
-        this.getWeatherInfo();
+    componentDidMount() {
+        this.getGeoLocation(this.getWeatherInfo);
     }
 
     render() {
         return(
-            <div>
+            <>
                 {listItems(this.state.days)}
-            </div>
+            </>
         );
     }
 }
