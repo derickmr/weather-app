@@ -21,7 +21,7 @@ var longitude: string;
 
 export default class Main extends Component<{}, Week> {
 
-    weekDays = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+    weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     weekCount = new Date().getDay();
 
@@ -43,17 +43,29 @@ export default class Main extends Component<{}, Week> {
 
     async getWeatherInfo(){
 
-        const response = await api.get(`onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=&appid=2c2969f366182280dea46210a412e3db`);
+        const weekStorage = localStorage.getItem('days');
 
-        const data = {
-            daily: response.data.daily
-        };
+        if (weekStorage){
+            this.setState({
+                days: JSON.parse(weekStorage)
+            })
+        }
 
-        console.log(data);
+        else {
+            const response = await api.get(`onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=&appid=2c2969f366182280dea46210a412e3db`);
 
-        this.setState({
-            days: this.getDaysInfo(data.daily)
-        })
+            // const data = {
+            //     daily: response.data.daily
+            // };
+
+            this.setState({
+                days: this.getDaysInfo(response.data.daily)
+            })
+
+            const { days } = this.state;
+
+            localStorage.setItem('days', JSON.stringify(days));
+        }
 
     }
 

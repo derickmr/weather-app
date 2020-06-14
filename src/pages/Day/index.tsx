@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { DayInfo } from '../../models/DayInfo'
-import { Title, Card, TempText, Div } from './styles';
+import { DayInfo } from '../../models/DayInfo';
+import { Card } from './styles';
+import { Title, Text, Div } from '../../styles/common';
 import { Link } from 'react-router-dom';
 
 type DayProps = {
@@ -22,10 +23,11 @@ export default class Day extends Component<DayProps, {}> {
                         <Title>
                             {this.props.dayInfo.dayInTheWeek}
                         </Title>
-                        <TempText color={"#003EFF"}>{this.props.dayInfo.temperature.min} °C</TempText>
-                        <TempText color={"#FF0000"}>{this.props.dayInfo.temperature.max} °C</TempText>
+                        <Text color={"#003EFF"}>{this.props.dayInfo.temperature.min} °C</Text>
+                        <Text color={"#FF0000"}>{this.props.dayInfo.temperature.max} °C</Text>
                         <Div><img src={this.iconUrl} alt="new" /> </Div>
-                        <TempText color={"#000000"}>{this.props.dayInfo.rainChance}%</TempText>
+                        <Text color={"#000000"}>{this.props.dayInfo.rainChance}%</Text>
+                        <Text color={"#000000"}>{this.props.dayInfo.weather.main}</Text>
                     </Card>
                 </Link>
     }
