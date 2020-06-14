@@ -21,13 +21,16 @@ var longitude: string;
 
 export default class Main extends Component<{}, Week> {
 
+    weekDays = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+
+    weekCount = new Date().getDay();
+
     constructor(props: any){
         super(props);
 
         this.state = {days: []};
 
         this.getWeatherInfo = this.getWeatherInfo.bind(this);
-
     }
 
     getGeoLocation(callBack: Function){
@@ -55,11 +58,12 @@ export default class Main extends Component<{}, Week> {
     }
 
     getDaysInfo(data: any): Array<DayInfo>{
-
-        return (data.map(function (element: any){
+        return (data.map((element: any) => {
             const info = new DayInfo();
 
             info.id = element.weather[0].id;
+            info.dayInTheWeek = this.weekDays[this.weekCount++ % this.weekDays.length];
+            info.rainChance = element.rain !== undefined ? element.rain : 0;
 
             info.feelsLike = {
                 day: element.feels_like.day,

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { DayInfo } from '../../models/DayInfo'
 
-import { Title, Card } from './styles';
+import { Title, Card, TempText, Div } from './styles';
 
 type DayProps = {
     dayInfo: DayInfo;
@@ -19,9 +19,14 @@ export default class Day extends Component<DayProps, {}> {
 
     render() {
         return <Card>
-                <Title>{this.props.dayInfo.temperature.day}</Title>
-                <img src={this.iconUrl} alt="new" />
-             </Card>
+                    <Title>
+                        {this.props.dayInfo.dayInTheWeek}
+                    </Title>
+                    <TempText color={"#003EFF"}>{this.props.dayInfo.temperature.min} °C</TempText>
+                    <TempText color={"#FF0000"}>{this.props.dayInfo.temperature.max} °C</TempText>
+                    <Div><img src={this.iconUrl} alt="new" /> </Div>
+                    <TempText color={"#000000"}>{this.props.dayInfo.rainChance}%</TempText>
+                </Card>
     }
 }
 

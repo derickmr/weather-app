@@ -1,5 +1,7 @@
 export class DayInfo {
     id: number;
+    dayInTheWeek: string;
+    rainChance: number;
     feelsLike: {
         day: number,
         evening: number,
