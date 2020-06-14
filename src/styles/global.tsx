@@ -14,7 +14,7 @@ export default createGlobalStyle `
     }
 
     body {
-        -webkit-font-smoothing: antialised !important;
+        -webkit-font-smoothing: antialiased !important;
     }
 
 `;
