@@ -40,4 +40,5 @@ export const TempText = styled.p`
     flex-direction: column;
     font-size: 16px;
     margin-top: 3px;
+    font-weight: bold;
 `;
