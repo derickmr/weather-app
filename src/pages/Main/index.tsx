@@ -54,10 +54,6 @@ export default class Main extends Component<{}, Week> {
         else {
             const response = await api.get(`onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=&appid=2c2969f366182280dea46210a412e3db`);
 
-            // const data = {
-            //     daily: response.data.daily
-            // };
-
             this.setState({
                 days: this.getDaysInfo(response.data.daily)
             })
@@ -73,7 +69,7 @@ export default class Main extends Component<{}, Week> {
         return (data.map((element: any) => {
             const info = new DayInfo();
 
-            info.id = element.weather[0].id;
+            info.id = this.weekCount;
             info.dayInTheWeek = this.weekDays[this.weekCount++ % this.weekDays.length];
             info.rainChance = element.rain !== undefined ? element.rain : 0;
 
