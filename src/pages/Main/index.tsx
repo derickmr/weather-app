@@ -30,10 +30,10 @@ export default class Main extends Component<{}, Week> {
 
         this.state = {days: []};
 
-        this.getWeatherInfo = this.getWeatherInfo.bind(this);
+        this.getWeatherDataFromAPI = this.getWeatherDataFromAPI.bind(this);
     }
 
-    getGeoLocation(callBack: Function){
+    getWeatherInfo(callBack: Function){
         geolocation.getCurrentPosition(function(position: any){
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
@@ -41,7 +41,7 @@ export default class Main extends Component<{}, Week> {
         });
     }
 
-    async getWeatherInfo(){
+    async getWeatherDataFromAPI(){
 
         const weekStorage = localStorage.getItem('days');
 
@@ -100,7 +100,7 @@ export default class Main extends Component<{}, Week> {
     }
 
     componentDidMount() {
-        this.getGeoLocation(this.getWeatherInfo);
+        this.getWeatherInfo(this.getWeatherDataFromAPI);
     }
 
     render() {
