@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Week from './pages/Main';
-import DayDetails from './pages/DayDetails';
+import Week from './components/Main';
+import DayDetails from './components/DayDetails';
 
 export default function Routes(){
     return(
