@@ -8,6 +8,8 @@ import geolocation from '@react-native-community/geolocation';
 
 type Week = {
     days: Array<DayInfo>;
+    latitude: number;
+    longitude: number;
 }
 
 function listItems (dailyData: Array<DayInfo>){
@@ -15,9 +17,6 @@ function listItems (dailyData: Array<DayInfo>){
         <Day key = {dayInfo.id} dayInfo = {dayInfo}/>
     );
 }
-
-var latitude: string;
-var longitude: string;
 
 export default class Main extends Component<{}, Week> {
 
@@ -28,15 +27,17 @@ export default class Main extends Component<{}, Week> {
     constructor(props: any){
         super(props);
 
-        this.state = {days: []};
+        this.state = {days: [], latitude: 0, longitude: 0};
 
         this.getWeatherDataFromAPI = this.getWeatherDataFromAPI.bind(this);
     }
 
     getWeatherInfo(callBack: Function){
-        geolocation.getCurrentPosition(function(position: any){
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
+        geolocation.getCurrentPosition((position) => {
+            this.setState({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            })
             callBack();
         });
     }
@@ -52,7 +53,7 @@ export default class Main extends Component<{}, Week> {
         }
 
         else {
-            const response = await api.get(`onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=&appid=2c2969f366182280dea46210a412e3db`);
+            const response = await api.get(`onecall?lat=${this.state.latitude}&lon=${this.state.longitude}&units=metric&exclude=&appid=2c2969f366182280dea46210a412e3db`);
 
             this.setState({
                 days: this.getDaysInfo(response.data.daily)
