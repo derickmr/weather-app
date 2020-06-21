@@ -67,7 +67,7 @@ export default class Main extends Component<{}, Week> {
 
     getDaysInfo(data: any): Array<DayInfo>{
         return (data.map((element: any) => {
-            const info = new DayInfo();
+            const info = {} as DayInfo;
 
             info.id = this.weekCount;
             info.dayInTheWeek = this.weekDays[this.weekCount++ % this.weekDays.length];
