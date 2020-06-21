@@ -1,4 +1,4 @@
-export class DayInfo {
+export interface DayInfo {
     id: number;
     dayInTheWeek: string;
     rainChance: number;
