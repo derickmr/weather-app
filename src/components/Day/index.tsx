@@ -3,6 +3,7 @@ import { DayInfo } from '../../models/DayInfo';
 import { Card } from './styles';
 import { Title, Text, Div } from '../../styles/common';
 import { Link } from 'react-router-dom';
+import { RouterPaths } from '../../../src/utils/RouterPaths';
 
 type DayProps = {
     dayInfo: DayInfo;
@@ -18,7 +19,7 @@ export default class Day extends Component<DayProps, {}> {
     }
 
     render() {
-        return <Link to={{pathname: '/dayDetails', state: {dayInfo: this.props.dayInfo}}}>
+        return <Link to={{pathname: RouterPaths.DAY_DETAILS_ROUTE, state: {dayInfo: this.props.dayInfo}}}>
                     <Card>
                         <Title>
                             {this.props.dayInfo.dayInTheWeek}
